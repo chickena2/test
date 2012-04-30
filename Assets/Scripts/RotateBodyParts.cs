@@ -311,7 +311,7 @@ public class RotateBodyParts : MonoBehaviour {
 	}
 
 	
-	void BackForward()
+	void Backward()
 	{
 		switch (cur_stage)
 		{

@@ -309,4 +309,59 @@ public class RotateBodyParts : MonoBehaviour {
 		}
 		
 	}
+
+	
+	void BackForward()
+	{
+		switch (cur_stage)
+		{
+		case 1:	// first stage, move right thigh forward
+			r_thigh.RotateAround(transform.position, transform.right, -2f);
+			aor += 2f;
+			if (aor > 19f)
+			{
+				cur_stage++;
+				aor = 0f;
+			}
+			break;
+		case 2: // second stage, rotate body forward
+				// till the right toe is on the ground
+			transform.RotateAround(l_toe.position, transform.right , 2f);
+			spine1.rotation = spine1_ini_rot;
+			if (r_toe.position.y - r_toe_ini_y < 0.01)
+			{
+				cur_stage++;
+			}
+			break;
+		case 3:	// third stage, rotate body forward around the right toe 
+				// till the right thigh come to initial rotation
+			transform.RotateAround(r_toe.position, transform.right, 2f);		
+			if (r_thigh_ini_rot == r_thigh.rotation)
+			{
+				cur_stage++;
+			}
+			break;
+		case 4: // rotate left thigh forward till left thigh initial rotation
+			l_thigh.RotateAround(transform.position, transform.right, -2f);		
+			if (l_thigh_ini_rot == l_thigh.rotation)
+			{
+				cur_stage++;
+			}
+			break;
+		case 5:	// forth stage, rotate body clockwise around the right toe 
+				// except the right thigh till body have the initial rotation
+			transform.RotateAround(transform.position, transform.right, -2f);
+			r_thigh.RotateAround(transform.position, transform.right, 2f);
+			l_thigh.RotateAround(transform.position, transform.right, 2f);
+			spine1.rotation = spine1_ini_rot;
+			if (transform.rotation == ini_rot)
+			{
+				cur_stage=0;
+				keyboard = true;
+				down = false;
+			}
+			break;
+		}
+		
+	}
 }
